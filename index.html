@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Coaching Institute</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="Coaching Institute - Home of expert mentors, courses, team updates and trainee resources." />
+</head>
+<body>
+  <!-- NAV -->
+  <header class="site-header">
+    <nav class="navbar container">
+      <div class="brand">Coaching Institute</div>
+      <button class="nav-toggle" aria-label="toggle navigation">☰</button>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#team">Team Updates</a></li>
+        <li><a href="#courses">Courses Offered</a></li>
+        <li><a href="#trainee">Trainee Corner</a></li>
+        <li><a href="#about">About Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HOME -->
+  <main>
+    <section id="home" class="hero">
+      <div class="container hero-inner">
+        <h1>Welcome to Coaching Institute</h1>
+        <p>Expert mentors. Structured curriculum. Real results.</p>
+        <a class="btn" href="#courses">Explore Courses</a>
+      </div>
+    </section>
+
+    <!-- TEAM UPDATES -->
+    <section id="team" class="section">
+      <div class="container">
+        <h2>Team Updates</h2>
+        <div class="grid cards">
+          <article class="card">
+            <h3>New Mentor — Rahul</h3>
+            <p>We welcome Mr. Rahul (IIT grad) to the Physics faculty — 10+ years teaching experience.</p>
+          </article>
+          <article class="card">
+            <h3>Achievement</h3>
+            <p>Congratulations to our students for top ranks in national entrance exams.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- COURSES -->
+    <section id="courses" class="section alt">
+      <div class="container">
+        <h2>Courses Offered</h2>
+        <div class="grid cards">
+          <article class="card">
+            <h3>JEE Coaching</h3>
+            <p>Foundation to Advanced — Classroom & online batches, DPPs, full test series.</p>
+          </article>
+          <article class="card">
+            <h3>NEET Coaching</h3>
+            <p>Complete medical entrance preparation with mock tests and revision plans.</p>
+          </article>
+          <article class="card">
+            <h3>Foundation (8–10)</h3>
+            <p>Strong fundamentals with concept-building and practice worksheets.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRAINEE CORNER -->
+    <section id="trainee" class="section">
+      <div class="container">
+        <h2>Trainee Corner</h2>
+        <ul class="features">
+          <li>Daily Practice Problems (DPP)</li>
+          <li>Downloadable Notes & Study Material</li>
+          <li>Online Test Series & Performance Reports</li>
+          <li>Discussion Forum & Doubt Solving</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section alt">
+      <div class="container">
+        <h2>About Us</h2>
+        <p>
+          We are a dedicated coaching institute focused on exam-oriented teaching for engineering and medical aspirants.
+          Our structured syllabus and experienced faculty help students reach their goals.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Coaching Institute — All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // small nav toggle for mobile
+    const btn = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('.nav-links');
+    btn && btn.addEventListener('click', () => nav.classList.toggle('open'));
+  </script>
+</body>
+</html>
