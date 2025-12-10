@@ -1,0 +1,65 @@
+/* Simple responsive style for the coaching site */
+:root{
+  --accent:#0b5cff;
+  --muted:#6b7280;
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --max-width:1100px;
+  --radius:12px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);
+  color:#111827;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.6;
+}
+
+.container{max-width:var(--max-width);margin:0 auto;padding:0 18px}
+
+/* Header */
+.site-header{background:#0b2547;color:#fff;position:sticky;top:0;z-index:40}
+.navbar{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.brand{font-weight:700;font-size:18px}
+.nav-links{list-style:none;display:flex;gap:18px;margin:0;padding:0}
+.nav-links a{color:#fff;text-decoration:none;padding:6px 8px;border-radius:6px}
+.nav-links a:hover{background:rgba(255,255,255,0.06)}
+
+.nav-toggle{display:none;background:transparent;border:0;color:#fff;font-size:20px}
+
+/* Hero */
+.hero{background:linear-gradient(90deg, rgba(11,34,71,0.9), rgba(6,12,37,0.9)), url('banner.jpg') center/cover no-repeat;color:#fff;padding:70px 0}
+.hero-inner{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.hero h1{font-size:34px;margin:0}
+.hero p{margin:0;color:rgba(255,255,255,0.85)}
+.btn{display:inline-block;margin-top:10px;padding:10px 16px;border-radius:8px;background:var(--accent);color:#fff;text-decoration:none;font-weight:600}
+
+/* Sections */
+.section{padding:48px 0}
+.section.alt{background:linear-gradient(180deg,#f7f9fc,#ffffff)}
+.section h2{text-align:center;margin-bottom:20px;font-size:24px}
+
+/* Cards/grid */
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.cards .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(16,24,40,0.06)}
+
+/* Features list */
+.features{list-style:disc;margin-left:22px;padding:0}
+.features li{padding:8px 0;color:var(--muted)}
+
+/* Footer */
+.site-footer{padding:18px 0;text-align:center;background:#07142a;color:#cfe0ff;margin-top:30px;font-size:14px;border-top:1px solid rgba(255,255,255,0.03)}
+
+/* Responsive */
+@media (max-width:800px){
+  .nav-links{position:absolute;right:18px;top:62px;background:#0b2547;padding:12px;border-radius:8px;flex-direction:column;display:none}
+  .nav-links.open{display:flex}
+  .nav-toggle{display:block}
+  .hero{padding:48px 0}
+  .hero h1{font-size:28px}
+}
