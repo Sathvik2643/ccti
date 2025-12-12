@@ -99,7 +99,7 @@
           <div id="certFileArea" style="margin-top:12px;"></div>
         </div>
 
-        <p class="hint">Note: The Register button opens your Google Form. The Download button (after verification) will start a download if you used Drive's direct-download URL (`uc?export=download&id=FILEID`).</p>
+        <p class="hint">Note: The Register button opens your Google Form. The Download button (after verification) will start a download automatically.<br> If you unable to dowload contact us.</p>
       </div>
     </section>
 
@@ -201,7 +201,7 @@
           note.style.marginTop = '8px';
           note.style.color = '#6b7280';
           note.style.fontSize = '13px';
-          note.textContent = 'Tip: For immediate download use a Drive direct-download link (`https://drive.google.com/uc?export=download&id=FILEID`).';
+          //note.textContent = 'Tip: For immediate download use a Drive direct-download link (`https://drive.google.com/uc?export=download&id=FILEID`).';
           certFileArea.appendChild(note);
         } else {
           certFileArea.textContent = 'Certificate found but no download file available.';
