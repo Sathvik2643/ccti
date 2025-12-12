@@ -33,7 +33,7 @@
       </div>
     </section>
 
-    <!-- TEAM UPDATES -->
+    <!-- UPDATES -->
     <section id="updates" class="section">
       <div class="container">
         <h2>Updates</h2>
@@ -57,15 +57,15 @@
         <div class="grid cards">
           <article class="card">
             <h3>Software</h3>
-            <p>C,Python,Java, SQL.<br>Data AnaLyst, MS Office etc..</p>
+            <p>C, Python, Java, SQL.<br>Data Analyst, MS Office, and more.</p>
           </article>
           <article class="card">
             <h3>VLSI</h3>
-            <p>Verilog, System Verilog, UVM and Protocols.<br> Design, Design Verification</p>
+            <p>Verilog, SystemVerilog, UVM and Protocols.<br>Design and Design Verification.</p>
           </article>
           <article class="card">
             <h3>Embedded Systems</h3>
-            <p>Strong fundamentals with concept-building and practice worksheets.</p>
+            <p>Microcontrollers, RTOS, interfacing, and hands-on projects to build strong fundamentals.</p>
           </article>
         </div>
       </div>
@@ -77,14 +77,16 @@
         <h2>Student Corner</h2>
 
         <div class="student-actions">
-          <!-- Replace the placeholder URLs in the href attributes below -->
+          <!-- Replace the placeholder URL below with your Google Form link -->
           <a id="registerBtn" class="btn outline" href="GOOGLE_FORM_URL" target="_blank" rel="noopener noreferrer">Register</a>
 
-          <!--<a id="driveBtn" class="btn outline" href="DRIVE_FOLDER_URL" target="_blank" rel="noopener noreferrer">Download Certificate</a> -->
+          <!-- Optional: show folder with all certificates (uncomment and replace DRIVE_FOLDER_URL if you want visible folder link)
+          <a id="driveBtn" class="btn outline" href="DRIVE_FOLDER_URL" target="_blank" rel="noopener noreferrer">All Certificates (Drive)</a>
+          -->
         </div>
 
         <div class="verify-block card">
-          <h3>Download/Verify Certificate</h3>
+          <h3>Download / Verify Certificate</h3>
           <p>Enter Certificate ID below (example: <code>CERT2025-001</code>)</p>
 
           <div class="verify-input">
@@ -97,7 +99,7 @@
           <div id="certFileArea" style="margin-top:12px;"></div>
         </div>
 
-        <p class="hint">Note: The register button takes to Google Form. The "Download Certificate" automatically downloads your certificate.<br> In case of Download failure Contact Us.</p>
+        <p class="hint">Note: The Register button opens your Google Form. The Download button (after verification) will start a download if you used Drive's direct-download URL (`uc?export=download&id=FILEID`).</p>
       </div>
     </section>
 
@@ -127,14 +129,19 @@
     btn && btn.addEventListener('click', () => nav.classList.toggle('open'));
 
     // ---------- Certificate verification logic ----------
-    // It fetches certificates.json (a small static file in repo) and checks for ID.
-    // Make sure certificates.json is in the same folder as index.html on GitHub Pages.
-
     const verifyBtn = document.getElementById('verifyBtn');
     const certInput = document.getElementById('certIdInput');
     const resultBox = document.getElementById('verifyResult');
     const certFileArea = document.getElementById('certFileArea');
+
     let certificates = []; // will be loaded from certificates.json
+    let certsLoaded = false;
+
+    // show visible message when certificates.json fails
+    function showLoadError() {
+      resultBox.textContent = '⚠ Certificate database not loaded. Please contact admin.';
+      resultBox.className = 'verify-result invalid';
+    }
 
     // Load certificates.json on page load
     fetch('certificates.json')
@@ -142,41 +149,60 @@
         if (!res.ok) throw new Error('Could not load certificates.json');
         return res.json();
       })
-      .then(data => { certificates = data; })
+      .then(data => {
+        if (!Array.isArray(data)) throw new Error('certificates.json must be an array');
+        certificates = data;
+        certsLoaded = true;
+      })
       .catch(err => {
         console.warn('certificates.json load failed:', err);
-        // keep certificates empty; verification will always be invalid until file is added
+        certsLoaded = false;
       });
 
     function sanitizeId(s){ return String(s || '').trim().toUpperCase(); }
 
-    verifyBtn.addEventListener('click', () => {
-      const searchId = sanitizeId(certInput.value);
+    function clearResultAreas(){
       certFileArea.innerHTML = '';
       resultBox.textContent = '';
+      resultBox.className = 'verify-result';
+    }
 
+    verifyBtn.addEventListener('click', () => {
+      clearResultAreas();
+      if (!certsLoaded) {
+        showLoadError();
+        return;
+      }
+
+      const searchId = sanitizeId(certInput.value);
       if (!searchId) {
         resultBox.textContent = 'Please enter a Certificate ID.';
         resultBox.className = 'verify-result invalid';
         return;
       }
 
-      // Search in the loaded array (exact match)
       const found = certificates.find(c => sanitizeId(c.id) === searchId);
 
       if (found) {
-        resultBox.textContent = '✔ Certificate VALID';
+        const nameText = found.name ? ` — ${found.name}` : '';
+        resultBox.textContent = `✔ Certificate VALID${nameText}`;
         resultBox.className = 'verify-result valid';
-        // If a file link is present, show download button
+
         if (found.file && found.file.length) {
           const a = document.createElement('a');
           a.href = found.file;
-          // open in new tab; if direct download URL is used, browser will download
           a.target = '_blank';
           a.rel = 'noopener noreferrer';
           a.className = 'btn outline';
           a.textContent = 'Download Certificate';
           certFileArea.appendChild(a);
+
+          const note = document.createElement('div');
+          note.style.marginTop = '8px';
+          note.style.color = '#6b7280';
+          note.style.fontSize = '13px';
+          note.textContent = 'Tip: For immediate download use a Drive direct-download link (`https://drive.google.com/uc?export=download&id=FILEID`).';
+          certFileArea.appendChild(note);
         } else {
           certFileArea.textContent = 'Certificate found but no download file available.';
         }
@@ -188,7 +214,10 @@
 
     // Allow Enter key to trigger verify
     certInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') verifyBtn.click();
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        verifyBtn.click();
+      }
     });
   </script>
 </body>
