@@ -97,11 +97,7 @@ body {
   border-radius: 10px;
 }
 
-.modal-box select {
-  width: 100%;
-  padding: 8px;
-  margin: 6px 0;
-}
+
 
 .modal-box input {
   width: 100%;
@@ -116,6 +112,12 @@ body {
 
 .btn.close {
   background: gray;
+}
+
+.modal-box select {
+  width: 100%;
+  padding: 8px;
+  margin: 6px 0;
 }
 
 /* FOOTER */
