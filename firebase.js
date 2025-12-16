@@ -2,7 +2,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import {
   getAuth,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore,
@@ -32,27 +33,32 @@ window.loginUser = async () => {
   const snap = await getDoc(doc(db, "users", cred.user.uid));
 
   if (snap.data().role !== "student") {
-    alert("Only students can access Student Corner");
+    alert("Only students are allowed");
     return;
   }
 
-  document.getElementById("studentEmail").innerText = email;
-
-  const courses = snap.data().courses || [];
-  const list = document.getElementById("courseList");
-  list.innerHTML = "";
-  courses.forEach(c => {
-    const li = document.createElement("li");
-    li.textContent = c;
-    list.appendChild(li);
-  });
-
-  closeLogin();
-  showSection("student");
+  window.location.href = "student.html";
 };
+
+// STUDENT DASHBOARD LOAD
+onAuthStateChanged(auth, async user => {
+  if (user && document.getElementById("studentEmail")) {
+    const snap = await getDoc(doc(db, "users", user.uid));
+    document.getElementById("studentEmail").innerText = user.email;
+
+    const courses = snap.data().courses || [];
+    const ul = document.getElementById("courseList");
+    ul.innerHTML = "";
+    courses.forEach(c => {
+      const li = document.createElement("li");
+      li.textContent = c;
+      ul.appendChild(li);
+    });
+  }
+});
 
 // LOGOUT
 window.logoutUser = async () => {
   await signOut(auth);
-  showSection("home");
+  window.location.href = "index.html";
 };
