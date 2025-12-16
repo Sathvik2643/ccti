@@ -60,8 +60,6 @@ body {
   border-radius: 5px;
   border: none;
   cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
   margin-top: 10px;
 }
 
@@ -97,9 +95,8 @@ body {
   border-radius: 10px;
 }
 
-
-
-.modal-box input {
+.modal-box input,
+.modal-box select {
   width: 100%;
   padding: 8px;
   margin: 6px 0;
@@ -112,12 +109,6 @@ body {
 
 .btn.close {
   background: gray;
-}
-
-.modal-box select {
-  width: 100%;
-  padding: 8px;
-  margin: 6px 0;
 }
 
 /* FOOTER */
