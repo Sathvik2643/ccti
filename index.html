@@ -2,223 +2,142 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Code Connect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
-  <meta name="description" content="Coaching Institute - Home of expert mentors, courses, updates and student resources." />
+  <meta name="description" content="Code Connect - Software, VLSI & Embedded Systems Training" />
 </head>
+
 <body>
-  <!-- NAV -->
-  <header class="site-header">
-    <nav class="navbar container">
-      <div class="brand">Code Connect</div>
-      <button class="nav-toggle" aria-label="toggle navigation">☰</button>
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#updates">Updates</a></li>
-        <li><a href="#courses">Courses Offered</a></li>
-        <li><a href="#student">Student Corner</a></li>
-        <li><a href="#about">About Us</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <!-- HOME -->
-  <main>
-    <section id="home" class="hero">
-      <div class="container hero-inner">
-        <h1>Welcome to Code Connect</h1>
-        <p>Expert mentors. Structured curriculum. Real results.</p>
-        <a class="btn" href="#courses">Explore Courses</a>
-      </div>
-    </section>
+<!-- NAV -->
+<header class="site-header">
+  <nav class="navbar container">
+    <div class="brand">Code Connect</div>
+    <button class="nav-toggle">☰</button>
+    <ul class="nav-links">
+      <li><a onclick="showSection('home')">Home</a></li>
+      <li><a onclick="showSection('updates')">Updates</a></li>
+      <li><a onclick="showSection('courses')">Courses</a></li>
+      <li><a onclick="showSection('student')">Student Corner</a></li>
+      <li><a onclick="showSection('about')">About</a></li>
+    </ul>
+  </nav>
+</header>
 
-    <!-- UPDATES -->
-    <section id="updates" class="section">
-      <div class="container">
-        <h2>Updates</h2>
-        <div class="grid cards">
-          <article class="card">
-            <h3>New Mentor — Rahul</h3>
-            <p>We welcome Mr. Rahul (IIT grad) to the Physics faculty — 10+ years teaching experience.</p>
-          </article>
-          <article class="card">
-            <h3>Achievement</h3>
-            <p>Congratulations to our students for top ranks in national entrance exams.</p>
-          </article>
-        </div>
-      </div>
-    </section>
+<main>
 
-    <!-- COURSES -->
-    <section id="courses" class="section alt">
-      <div class="container">
-        <h2>Courses Offered</h2>
-        <div class="grid cards">
-          <article class="card">
-            <h3>Software</h3>
-            <p>C, Python, Java, SQL.<br>Data Analyst, MS Office, and more.</p>
-          </article>
-          <article class="card">
-            <h3>VLSI</h3>
-            <p>Verilog, SystemVerilog, UVM and Protocols.<br>Design and Design Verification.</p>
-          </article>
-          <article class="card">
-            <h3>Embedded Systems</h3>
-            <p>Microcontrollers, RTOS, interfacing, and hands-on projects to build strong fundamentals.</p>
-          </article>
-        </div>
-      </div>
-    </section>
+<!-- HOME -->
+<section id="home" class="section">
+  <div class="container">
+    <h1>Welcome to Code Connect</h1>
+    <p>Industry-focused training in Software, VLSI and Embedded Systems.</p>
+  </div>
+</section>
 
-    <!-- STUDENT CORNER -->
-    <section id="student" class="section">
-      <div class="container">
-        <h2>Student Corner</h2>
+<!-- UPDATES -->
+<section id="updates" class="section hidden">
+  <div class="container">
+    <h2>Updates</h2>
+    <p>New batches starting soon. Contact us for details.</p>
+  </div>
+</section>
 
-        <div class="student-actions">
-          <!-- Replace the placeholder URL below with your Google Form link -->
-          <a id="registerBtn" class="btn outline" href="GOOGLE_FORM_URL" target="_blank" rel="noopener noreferrer">Register</a>
+<!-- COURSES -->
+<section id="courses" class="section hidden">
+  <div class="container">
+    <h2>Courses Offered</h2>
+    <ul>
+      <li><strong>Software:</strong> C, Python, Java, SQL, Data Analyst, MS Office</li>
+      <li><strong>VLSI:</strong> Verilog, SystemVerilog, UVM, Design & Verification</li>
+      <li><strong>Embedded Systems:</strong> Microcontrollers, RTOS, Interfacing</li>
+    </ul>
+  </div>
+</section>
 
-          <!-- Optional: show folder with all certificates (uncomment and replace DRIVE_FOLDER_URL if you want visible folder link)
-          <a id="driveBtn" class="btn outline" href="DRIVE_FOLDER_URL" target="_blank" rel="noopener noreferrer">All Certificates (Drive)</a>
-          -->
-        </div>
+<!-- STUDENT CORNER -->
+<section id="student" class="section hidden">
+  <div class="container">
+    <h2>Student Corner</h2>
 
-        <div class="verify-block card">
-          <h3>Download / Verify Certificate</h3>
-          <p>Enter Certificate ID below (example: <code>CERT2025-001</code>)</p>
+    <!-- Replace with your Google Form link -->
+    <a class="btn" href="GOOGLE_FORM_URL" target="_blank">Register</a>
 
-          <div class="verify-input">
-            <input id="certIdInput" type="text" placeholder="Enter Certificate ID" aria-label="certificate id">
-            <button id="verifyBtn" class="btn">Verify</button>
-          </div>
-
-          <div id="verifyResult" class="verify-result" aria-live="polite"></div>
-          <!-- If valid and file exists, we will show a download link here -->
-          <div id="certFileArea" style="margin-top:12px;"></div>
-        </div>
-
-        <p class="hint">Note: The Register button opens your Google Form. The Download button (after verification) will start a download automatically.<br> If you unable to dowload contact us.</p>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" class="section alt">
-      <div class="container">
-        <h2>About Us</h2>
-        <p>
-          We are a dedicated coaching institute focused on exam-oriented teaching for engineering aspirants.
-          Our structured syllabus and experienced faculty help students reach their goals.
-        </p>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container">
-      <p>© 2025 Coaching Institute — All rights reserved.</p>
+    <div class="verify-box">
+      <h3>Verify / Download Certificate</h3>
+      <input id="certInput" type="text" placeholder="Enter Certificate ID">
+      <button class="btn" onclick="verifyCert()">Verify</button>
+      <p id="certResult"></p>
+      <div id="certDownload"></div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script>
-    // small nav toggle for mobile
-    const btn = document.querySelector('.nav-toggle');
-    const nav = document.querySelector('.nav-links');
-    btn && btn.addEventListener('click', () => nav.classList.toggle('open'));
+<!-- ABOUT -->
+<section id="about" class="section hidden">
+  <div class="container">
+    <h2>About Us</h2>
+    <p>
+      Code Connect is a training institute focused on practical skills and real-world industry exposure.
+      We help students build strong technical careers.
+    </p>
+  </div>
+</section>
 
-    // ---------- Certificate verification logic ----------
-    const verifyBtn = document.getElementById('verifyBtn');
-    const certInput = document.getElementById('certIdInput');
-    const resultBox = document.getElementById('verifyResult');
-    const certFileArea = document.getElementById('certFileArea');
+</main>
 
-    let certificates = []; // will be loaded from certificates.json
-    let certsLoaded = false;
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>© 2025 Code Connect</p>
+</footer>
 
-    // show visible message when certificates.json fails
-    function showLoadError() {
-      resultBox.textContent = '⚠ Certificate database not loaded. Please contact admin.';
-      resultBox.className = 'verify-result invalid';
+<script>
+/* ---------- SECTION SWITCH (SPA) ---------- */
+function showSection(id) {
+  document.querySelectorAll(".section").forEach(sec => sec.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+}
+
+/* ---------- CERTIFICATE VERIFY ---------- */
+let certificates = [];
+
+fetch("certificates.json")
+  .then(r => r.json())
+  .then(data => certificates = data)
+  .catch(() => console.warn("certificates.json not found"));
+
+function verifyCert() {
+  const id = document.getElementById("certInput").value.trim().toUpperCase();
+  const result = document.getElementById("certResult");
+  const download = document.getElementById("certDownload");
+  download.innerHTML = "";
+
+  if (!id) {
+    result.textContent = "Please enter Certificate ID";
+    result.style.color = "red";
+    return;
+  }
+
+  const found = certificates.find(c => c.id === id);
+
+  if (found) {
+    result.textContent = "✔ VALID Certificate - " + (found.name || "");
+    result.style.color = "green";
+
+    if (found.file) {
+      const a = document.createElement("a");
+      a.href = found.file;
+      a.textContent = "Download Certificate";
+      a.className = "btn";
+      a.target = "_blank";
+      download.appendChild(a);
     }
+  } else {
+    result.textContent = "✖ INVALID Certificate";
+    result.style.color = "red";
+  }
+}
+</script>
 
-    // Load certificates.json on page load
-    fetch('certificates.json')
-      .then(res => {
-        if (!res.ok) throw new Error('Could not load certificates.json');
-        return res.json();
-      })
-      .then(data => {
-        if (!Array.isArray(data)) throw new Error('certificates.json must be an array');
-        certificates = data;
-        certsLoaded = true;
-      })
-      .catch(err => {
-        console.warn('certificates.json load failed:', err);
-        certsLoaded = false;
-      });
-
-    function sanitizeId(s){ return String(s || '').trim().toUpperCase(); }
-
-    function clearResultAreas(){
-      certFileArea.innerHTML = '';
-      resultBox.textContent = '';
-      resultBox.className = 'verify-result';
-    }
-
-    verifyBtn.addEventListener('click', () => {
-      clearResultAreas();
-      if (!certsLoaded) {
-        showLoadError();
-        return;
-      }
-
-      const searchId = sanitizeId(certInput.value);
-      if (!searchId) {
-        resultBox.textContent = 'Please enter a Certificate ID.';
-        resultBox.className = 'verify-result invalid';
-        return;
-      }
-
-      const found = certificates.find(c => sanitizeId(c.id) === searchId);
-
-      if (found) {
-        const nameText = found.name ? ` — ${found.name}` : '';
-        resultBox.textContent = `✔ Certificate VALID${nameText}`;
-        resultBox.className = 'verify-result valid';
-
-        if (found.file && found.file.length) {
-          const a = document.createElement('a');
-          a.href = found.file;
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          a.className = 'btn outline';
-          a.textContent = 'Download Certificate';
-          certFileArea.appendChild(a);
-
-          const note = document.createElement('div');
-          note.style.marginTop = '8px';
-          note.style.color = '#6b7280';
-          note.style.fontSize = '13px';
-          //note.textContent = 'Tip: For immediate download use a Drive direct-download link (`https://drive.google.com/uc?export=download&id=FILEID`).';
-          certFileArea.appendChild(note);
-        } else {
-          certFileArea.textContent = 'Certificate found but no download file available.';
-        }
-      } else {
-        resultBox.textContent = '✖ Certificate INVALID or not found';
-        resultBox.className = 'verify-result invalid';
-      }
-    });
-
-    // Allow Enter key to trigger verify
-    certInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        verifyBtn.click();
-      }
-    });
-  </script>
 </body>
 </html>
