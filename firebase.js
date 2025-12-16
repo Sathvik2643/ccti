@@ -1,4 +1,3 @@
-// Firebase CDN SDKs (WORKS ON GITHUB PAGES)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth,
@@ -11,7 +10,7 @@ import {
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// ✅ YOUR FIREBASE CONFIG (PASTED & FIXED)
+// 🔥 YOUR FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyAdAEDwbkapoWf5FRWywQ3Lc_yee2fLbck",
   authDomain: "project1-27eeb.firebaseapp.com",
@@ -21,13 +20,13 @@ const firebaseConfig = {
   appId: "1:372685998416:web:ed24ead6124ef88c028455"
 };
 
-// Initialize Firebase
+// Init Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// ================= REGISTER =================
-window.registerUser = async function () {
+// REGISTER
+window.registerUser = async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
@@ -38,21 +37,18 @@ window.registerUser = async function () {
 
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
-
-    // store role (default = student)
     await setDoc(doc(db, "users", cred.user.uid), {
-      role: "student",
-      email: email
+      email: email,
+      role: "student"
     });
-
-    alert("Registration successful. You can now login.");
-  } catch (error) {
-    alert(error.message);
+    alert("Registration successful");
+  } catch (e) {
+    alert(e.message);
   }
 };
 
-// ================= LOGIN =================
-window.loginUser = async function () {
+// LOGIN
+window.loginUser = async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
@@ -66,7 +62,7 @@ window.loginUser = async function () {
     alert("Login successful");
     closeLogin();
     showSection("student");
-  } catch (error) {
-    alert(error.message);
+  } catch (e) {
+    alert(e.message);
   }
 };
