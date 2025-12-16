@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Dashboard | Code Connect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="navbar container">
+    <div class="brand">Code Connect</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#courses">Courses</a></li>
+      <li><a onclick="logoutUser()">Logout</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="container">
+  <section class="section" style="display:block">
+    <h2>Student Dashboard</h2>
+
+    <p><strong>User:</strong> <span id="studentEmail"></span></p>
+
+    <h3>Registered Courses</h3>
+    <ul id="courseList"></ul>
+
+    <a class="btn" href="GOOGLE_FORM_URL" target="_blank">Register New Course</a>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>© 2025 Code Connect. All rights reserved.</p>
+</footer>
+
+<script type="module" src="firebase.js"></script>
+</body>
+</html>
