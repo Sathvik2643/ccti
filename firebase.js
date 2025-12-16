@@ -10,7 +10,6 @@ import {
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// 🔥 YOUR FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyAdAEDwbkapoWf5FRWywQ3Lc_yee2fLbck",
   authDomain: "project1-27eeb.firebaseapp.com",
@@ -20,7 +19,6 @@ const firebaseConfig = {
   appId: "1:372685998416:web:ed24ead6124ef88c028455"
 };
 
-// Init Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -30,15 +28,10 @@ window.registerUser = async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  if (!email || !password) {
-    alert("Enter email and password");
-    return;
-  }
-
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     await setDoc(doc(db, "users", cred.user.uid), {
-      email: email,
+      email,
       role: "student"
     });
     alert("Registration successful");
@@ -51,11 +44,6 @@ window.registerUser = async () => {
 window.loginUser = async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-
-  if (!email || !password) {
-    alert("Enter email and password");
-    return;
-  }
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
