@@ -2,15 +2,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import {
   getAuth,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore,
   doc,
-  setDoc,
-  getDoc,
-  collection,
-  getDocs
+  getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -26,64 +23,36 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// REGISTER
-window.registerUser = async () => {
-  const email = emailInput();
-  const password = passwordInput();
-  const role = document.getElementById("role").value;
-
-  try {
-    const cred = await createUserWithEmailAndPassword(auth, email, password);
-    await setDoc(doc(db, "users", cred.user.uid), {
-      email,
-      role
-    });
-    alert("Registered as " + role);
-  } catch (e) {
-    alert(e.message);
-  }
-};
-
 // LOGIN
 window.loginUser = async () => {
-  try {
-    const email = emailInput();
-    const password = passwordInput();
-    const cred = await signInWithEmailAndPassword(auth, email, password);
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-    const snap = await getDoc(doc(db, "users", cred.user.uid));
-    const role = snap.data().role;
+  const cred = await signInWithEmailAndPassword(auth, email, password);
+  const snap = await getDoc(doc(db, "users", cred.user.uid));
 
-    closeLogin();
-
-    if (role === "student") showSection("student");
-    if (role === "employee") showSection("courses");
-
-    if (role === "admin") {
-      document.getElementById("admin").style.display = "block";
-      showSection("admin");
-      loadUsers();
-    }
-  } catch (e) {
-    alert(e.message);
+  if (snap.data().role !== "student") {
+    alert("Only students can access Student Corner");
+    return;
   }
+
+  document.getElementById("studentEmail").innerText = email;
+
+  const courses = snap.data().courses || [];
+  const list = document.getElementById("courseList");
+  list.innerHTML = "";
+  courses.forEach(c => {
+    const li = document.createElement("li");
+    li.textContent = c;
+    list.appendChild(li);
+  });
+
+  closeLogin();
+  showSection("student");
 };
 
-function emailInput() {
-  return document.getElementById("email").value;
-}
-function passwordInput() {
-  return document.getElementById("password").value;
-}
-
-// ADMIN LOAD USERS
-window.loadUsers = async () => {
-  const table = document.getElementById("userTable");
-  const snapshot = await getDocs(collection(db, "users"));
-
-  snapshot.forEach(d => {
-    const row = table.insertRow(-1);
-    row.insertCell(0).innerText = d.data().email;
-    row.insertCell(1).innerText = d.data().role;
-  });
+// LOGOUT
+window.logoutUser = async () => {
+  await signOut(auth);
+  showSection("home");
 };
