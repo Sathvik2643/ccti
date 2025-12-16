@@ -35,8 +35,8 @@ body {
 
 .nav-links a {
   color: white;
-  text-decoration: none;
   cursor: pointer;
+  text-decoration: none;
 }
 
 /* SECTIONS */
@@ -44,22 +44,47 @@ body {
   padding: 40px 0;
 }
 
+/* COURSES */
+.course-card {
+  background: white;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 8px;
+}
+
 /* BUTTON */
 .btn {
   background: #0b5cff;
   color: white;
   padding: 8px 14px;
-  border: none;
   border-radius: 5px;
+  border: none;
   cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
 }
 
-/* MODAL (POPUP) */
+/* STUDENT */
+.verify-box {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.verify-box input {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+}
+
+/* MODAL */
 .modal {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.6);
-  display: none;              /* 🔥 hidden by default */
+  display: none;
   align-items: center;
   justify-content: center;
   z-index: 1000;
@@ -70,19 +95,17 @@ body {
   padding: 20px;
   width: 320px;
   border-radius: 10px;
-  text-align: center;
 }
 
 .modal-box input {
   width: 100%;
-  padding: 10px;
-  margin: 8px 0;
+  padding: 8px;
+  margin: 6px 0;
 }
 
 .modal-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
 }
 
 .btn.close {
