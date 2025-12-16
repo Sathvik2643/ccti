@@ -51,7 +51,7 @@
   </div>
 </section>
 
-<!-- STUDENT -->
+<!-- STUDENT CORNER -->
 <section id="student" class="section">
   <h2>Student Corner</h2>
 
@@ -59,7 +59,6 @@
 
   <div class="verify-box">
     <h3>Verify / Download Certificate</h3>
-    <h4>(Example: CERT2025-001)</h4>
     <input id="certInput" placeholder="Enter Certificate ID">
     <button class="btn" onclick="verifyCert()">Verify</button>
     <p id="certResult"></p>
@@ -73,6 +72,17 @@
   <p>Professional coaching institute focused on industry-ready skills.</p>
 </section>
 
+<!-- ADMIN DASHBOARD -->
+<section id="admin" class="section">
+  <h2>Admin Dashboard</h2>
+  <table border="1" width="100%" id="userTable">
+    <tr>
+      <th>Email</th>
+      <th>Role</th>
+    </tr>
+  </table>
+</section>
+
 </main>
 
 <!-- LOGIN MODAL -->
@@ -84,7 +94,7 @@
       <option value="student">Student</option>
       <option value="employee">Employee</option>
     </select>
-    
+
     <input id="email" type="email" placeholder="Email">
     <input id="password" type="password" placeholder="Password">
 
@@ -100,7 +110,6 @@
   <p>© 2025 Code Connect</p>
 </footer>
 
-<!-- JS FILES -->
 <script src="main.js"></script>
 <script type="module" src="firebase.js"></script>
 
