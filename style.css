@@ -34,8 +34,8 @@ body {
 
 .nav-links a {
   color: white;
-  cursor: pointer;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .section {
@@ -64,6 +64,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* 🔥 FIX */
+.modal.hidden {
+  display: none;
 }
 
 .modal-box {
