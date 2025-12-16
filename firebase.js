@@ -88,6 +88,7 @@ window.loginUser = async () => {
   const email = emailInput();
   const password = passwordInput();
   const err = errorBox();
+
   err.style.color = "red";
   err.textContent = "";
 
@@ -105,28 +106,34 @@ window.loginUser = async () => {
     }
 
     const snap = await getDoc(doc(db, "users", cred.user.uid));
-
     if (!snap.exists() || snap.data().role !== "student") {
-      err.textContent = "Only students are allowed.";
+      err.textContent = "Only students are allowed to login here.";
       return;
     }
 
     window.location.href = "./student.html";
 
   } catch (e) {
-    if (e.code === "auth/user-not-found") {
-      err.textContent = "User not registered. Please register.";
-    } else if (e.code === "auth/wrong-password") {
-      err.textContent = "Incorrect password.";
-    } else if (e.code === "auth/invalid-email") {
+    // 🔥 HANDLE FIREBASE GENERIC ERROR
+    if (
+      e.code === "auth/invalid-credential" ||
+      e.code === "auth/user-not-found" ||
+      e.code === "auth/wrong-password"
+    ) {
+      err.textContent = "Invalid email or password.";
+    } 
+    else if (e.code === "auth/invalid-email") {
       err.textContent = "Invalid email format.";
-    } else if (e.code === "auth/too-many-requests") {
-      err.textContent = "Too many attempts. Try again later.";
-    } else {
-      err.textContent = e.message;
+    } 
+    else if (e.code === "auth/too-many-requests") {
+      err.textContent = "Too many attempts. Please try again later.";
+    } 
+    else {
+      err.textContent = "Login failed. Please try again.";
     }
   }
 };
+
 
 /* FORGOT PASSWORD */
 window.forgotPassword = async () => {
