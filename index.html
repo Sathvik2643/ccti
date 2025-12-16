@@ -9,6 +9,7 @@
 
 <body>
 
+<!-- NAVBAR -->
 <header class="site-header">
   <nav class="navbar container">
     <div class="brand">Code Connect</div>
@@ -24,37 +25,45 @@
 
 <main class="container">
 
+<!-- HOME -->
 <section id="home" class="section">
   <h1>Welcome to Code Connect</h1>
   <p>Industry-focused training in Software, VLSI and Embedded Systems.</p>
 </section>
 
-<section id="courses" class="section hidden">
+<!-- COURSES -->
+<section id="courses" class="section">
   <h2>Courses</h2>
   <p>Software, VLSI, Embedded Systems</p>
 </section>
 
-<section id="student" class="section hidden">
+<!-- STUDENT -->
+<section id="student" class="section">
   <h2>Student Corner</h2>
   <p>Verify and download certificates.</p>
 </section>
 
-<section id="about" class="section hidden">
+<!-- ABOUT -->
+<section id="about" class="section">
   <h2>About Us</h2>
   <p>Professional training institute.</p>
 </section>
 
 </main>
 
-<!-- LOGIN MODAL -->
-<div id="loginModal" class="modal hidden">
+<!-- LOGIN MODAL (POPUP) -->
+<div id="loginModal" class="modal">
   <div class="modal-box">
     <h3>Login / Register</h3>
+
     <input id="email" type="email" placeholder="Email">
     <input id="password" type="password" placeholder="Password">
-    <button class="btn" onclick="loginUser()">Login</button>
-    <button class="btn" onclick="registerUser()">Register</button>
-    <button class="btn close" onclick="closeLogin()">Close</button>
+
+    <div class="modal-actions">
+      <button class="btn" onclick="loginUser()">Login</button>
+      <button class="btn" onclick="registerUser()">Register</button>
+      <button class="btn close" onclick="closeLogin()">Close</button>
+    </div>
   </div>
 </div>
 
@@ -63,20 +72,28 @@
 </footer>
 
 <script>
+/* ---------- SPA SECTION SWITCH ---------- */
 function showSection(id) {
-  document.querySelectorAll(".section").forEach(s => s.classList.add("hidden"));
-  document.getElementById(id).classList.remove("hidden");
+  document.querySelectorAll(".section").forEach(sec => sec.style.display = "none");
+  document.getElementById(id).style.display = "block";
 }
 
+/* ---------- LOGIN MODAL ---------- */
 function openLogin() {
-  document.getElementById("loginModal").classList.remove("hidden");
+  document.getElementById("loginModal").style.display = "flex";
 }
 function closeLogin() {
-  document.getElementById("loginModal").classList.add("hidden");
+  document.getElementById("loginModal").style.display = "none";
 }
+
+/* ---------- INITIAL LOAD ---------- */
+document.addEventListener("DOMContentLoaded", () => {
+  showSection("home");     // show ONLY home
+  closeLogin();            // hide modal
+});
 </script>
 
-<!-- 🔥 FIREBASE -->
+<!-- FIREBASE -->
 <script type="module" src="firebase.js"></script>
 
 </body>
