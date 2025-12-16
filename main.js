@@ -1,23 +1,14 @@
 let certificates = [];
 
-// Load certificates
 fetch("certificates.json")
-  .then(res => res.json())
-  .then(data => certificates = data);
+  .then(r => r.json())
+  .then(d => certificates = d);
 
-// Navigation
 function showSection(id) {
   document.querySelectorAll(".section").forEach(s => s.style.display = "none");
   document.getElementById(id).style.display = "block";
 }
 
-// Lock Student Corner
-function openStudent() {
-  alert("Please login as student to access Student Corner");
-  openLogin();
-}
-
-// Verify Certificate (Public)
 function verifyCert() {
   const id = document.getElementById("certInput").value.trim().toUpperCase();
   const res = document.getElementById("certResult");
@@ -40,16 +31,6 @@ function verifyCert() {
   }
 }
 
-// Login Modal
-function openLogin() {
-  document.getElementById("loginModal").style.display = "flex";
-}
-function closeLogin() {
-  document.getElementById("loginModal").style.display = "none";
-}
-
-// Initial load
 document.addEventListener("DOMContentLoaded", () => {
   showSection("home");
-  closeLogin();
 });
