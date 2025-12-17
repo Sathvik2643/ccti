@@ -14,6 +14,10 @@ import {
   setDoc,
   getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAdAEDwbkapoWf5FRWywQ3Lc_yee2fLbck",
@@ -111,7 +115,13 @@ window.loginUser = async () => {
       return;
     }
 
-    window.location.href = "./student.html";
+    if (snap.data().role === "admin") {
+      window.location.href = "./admin.html";
+    } 
+    else {
+      window.location.href = "./student.html";
+    }
+
 
   } catch (e) {
     // 🔥 HANDLE FIREBASE GENERIC ERROR
@@ -179,3 +189,47 @@ window.logoutUser = async () => {
   await signOut(auth);
   window.location.href = "./index.html";
 };
+
+/* ADMIN DASHBOARD LOAD */
+onAuthStateChanged(auth, async user => {
+  if (!user) return;
+
+  const isAdminPage = window.location.pathname.includes("admin.html");
+  if (!isAdminPage) return;
+
+  const snap = await getDoc(doc(db, "users", user.uid));
+
+  if (!snap.exists() || snap.data().role !== "admin") {
+    alert("Access denied");
+    window.location.href = "./login.html";
+    return;
+  }
+
+  const usersSnap = await getDocs(collection(db, "users"));
+
+  let total = 0;
+  let students = 0;
+  let admins = 0;
+
+  const table = document.getElementById("userTable");
+  table.innerHTML = "";
+
+  usersSnap.forEach(docu => {
+    total++;
+    const data = docu.data();
+
+    if (data.role === "student") students++;
+    if (data.role === "admin") admins++;
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${data.email}</td>
+      <td>${data.role}</td>
+    `;
+    table.appendChild(tr);
+  });
+
+  document.getElementById("totalUsers").innerText = total;
+  document.getElementById("totalStudents").innerText = students;
+  document.getElementById("totalAdmins").innerText = admins;
+});
