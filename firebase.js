@@ -87,12 +87,11 @@ window.registerUser = async () => {
   }
 };
 
-/* ================= LOGIN ================= */
+/* LOGIN */
 window.loginUser = async () => {
   const email = emailInput();
   const password = passwordInput();
   const err = errorBox();
-  if (!err) return;
 
   err.style.color = "red";
   err.textContent = "";
@@ -110,10 +109,17 @@ window.loginUser = async () => {
       return;
     }
 
-    const snap = await getDoc(doc(db, "users", cred.user.uid));
+    const userRef = doc(db, "users", cred.user.uid);
+    let snap = await getDoc(userRef);
+
+    // ✅ AUTO-CREATE USER RECORD IF MISSING
     if (!snap.exists()) {
-      err.textContent = "User record not found.";
-      return;
+      await setDoc(userRef, {
+        email: cred.user.email,
+        role: "student",     // default role
+        courses: []
+      });
+      snap = await getDoc(userRef);
     }
 
     const role = snap.data().role;
