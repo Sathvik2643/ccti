@@ -132,3 +132,26 @@ body {
   }
 }
 
+/* Smooth dropdown animation */
+.nav-links {
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  .nav-links.show {
+    max-height: 500px;
+    opacity: 1;
+  }
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
