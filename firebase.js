@@ -12,9 +12,7 @@ import {
   getFirestore,
   doc,
   setDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import {
+  getDoc,
   collection,
   getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -32,22 +30,24 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* HELPERS */
+/* ================= HELPERS ================= */
 function emailInput() {
-  return document.getElementById("email").value;
+  return document.getElementById("email")?.value || "";
 }
 function passwordInput() {
-  return document.getElementById("password").value;
+  return document.getElementById("password")?.value || "";
 }
 function errorBox() {
   return document.getElementById("errorMsg");
 }
 
-/* REGISTER */
+/* ================= REGISTER ================= */
 window.registerUser = async () => {
   const email = emailInput();
   const password = passwordInput();
   const err = errorBox();
+  if (!err) return;
+
   err.style.color = "red";
   err.textContent = "";
 
@@ -87,11 +87,12 @@ window.registerUser = async () => {
   }
 };
 
-/* LOGIN */
+/* ================= LOGIN ================= */
 window.loginUser = async () => {
   const email = emailInput();
   const password = passwordInput();
   const err = errorBox();
+  if (!err) return;
 
   err.style.color = "red";
   err.textContent = "";
@@ -110,45 +111,45 @@ window.loginUser = async () => {
     }
 
     const snap = await getDoc(doc(db, "users", cred.user.uid));
-    if (!snap.exists() || snap.data().role !== "student") {
-      err.textContent = "Only students are allowed to login here.";
+    if (!snap.exists()) {
+      err.textContent = "User record not found.";
       return;
     }
 
-    if (snap.data().role === "admin") {
+    const role = snap.data().role;
+
+    // ✅ ROLE-BASED REDIRECT
+    if (role === "admin") {
       window.location.href = "./admin.html";
-    } 
-    else {
+    } else if (role === "student") {
       window.location.href = "./student.html";
+    } else {
+      err.textContent = "Access denied.";
     }
 
-
   } catch (e) {
-    // 🔥 HANDLE FIREBASE GENERIC ERROR
     if (
       e.code === "auth/invalid-credential" ||
       e.code === "auth/user-not-found" ||
       e.code === "auth/wrong-password"
     ) {
       err.textContent = "Invalid email or password.";
-    } 
-    else if (e.code === "auth/invalid-email") {
+    } else if (e.code === "auth/invalid-email") {
       err.textContent = "Invalid email format.";
-    } 
-    else if (e.code === "auth/too-many-requests") {
-      err.textContent = "Too many attempts. Please try again later.";
-    } 
-    else {
+    } else if (e.code === "auth/too-many-requests") {
+      err.textContent = "Too many attempts. Try again later.";
+    } else {
       err.textContent = "Login failed. Please try again.";
     }
   }
 };
 
-
-/* FORGOT PASSWORD */
+/* ================= FORGOT PASSWORD ================= */
 window.forgotPassword = async () => {
   const email = emailInput();
   const err = errorBox();
+  if (!err) return;
+
   err.style.color = "green";
   err.textContent = "";
 
@@ -163,14 +164,16 @@ window.forgotPassword = async () => {
     err.textContent = "Password reset link sent to your email.";
   } catch (e) {
     err.style.color = "red";
-    err.textContent = e.message;
+    err.textContent = "Failed to send reset email.";
   }
 };
 
-/* STUDENT DASHBOARD LOAD */
+/* ================= STUDENT DASHBOARD ================= */
 onAuthStateChanged(auth, async user => {
   if (user && document.getElementById("studentEmail")) {
     const snap = await getDoc(doc(db, "users", user.uid));
+    if (!snap.exists()) return;
+
     document.getElementById("studentEmail").innerText = user.email;
 
     const courses = snap.data().courses || [];
@@ -184,21 +187,19 @@ onAuthStateChanged(auth, async user => {
   }
 });
 
-/* LOGOUT */
+/* ================= LOGOUT ================= */
 window.logoutUser = async () => {
   await signOut(auth);
   window.location.href = "./index.html";
 };
 
-/* ADMIN DASHBOARD LOAD */
+/* ================= ADMIN DASHBOARD ================= */
 onAuthStateChanged(auth, async user => {
   if (!user) return;
 
-  const isAdminPage = window.location.pathname.includes("admin.html");
-  if (!isAdminPage) return;
+  if (!window.location.pathname.includes("admin.html")) return;
 
   const snap = await getDoc(doc(db, "users", user.uid));
-
   if (!snap.exists() || snap.data().role !== "admin") {
     alert("Access denied");
     window.location.href = "./login.html";
@@ -207,10 +208,7 @@ onAuthStateChanged(auth, async user => {
 
   const usersSnap = await getDocs(collection(db, "users"));
 
-  let total = 0;
-  let students = 0;
-  let admins = 0;
-
+  let total = 0, students = 0, admins = 0;
   const table = document.getElementById("userTable");
   table.innerHTML = "";
 
@@ -222,10 +220,7 @@ onAuthStateChanged(auth, async user => {
     if (data.role === "admin") admins++;
 
     const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${data.email}</td>
-      <td>${data.role}</td>
-    `;
+    tr.innerHTML = `<td>${data.email}</td><td>${data.role}</td>`;
     table.appendChild(tr);
   });
 
