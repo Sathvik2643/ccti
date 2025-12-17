@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="navbar container">
+    <div class="brand">
+      <a href="./index.html">Institute Portal</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#" onclick="logoutUser()">Logout</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="container">
+  <section class="section" style="display:block">
+    <h2>Admin Dashboard</h2>
+
+    <!-- STATS -->
+    <div class="admin-stats">
+      <div class="stat-card">
+        <h3 id="totalUsers">0</h3>
+        <p>Total Users</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="totalStudents">0</h3>
+        <p>Students</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="totalAdmins">0</h3>
+        <p>Admins</p>
+      </div>
+    </div>
+
+    <!-- USER TABLE -->
+    <h3 style="margin-top:30px;">User Management</h3>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody id="userTable">
+        <!-- Filled by Firebase -->
+      </tbody>
+    </table>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>© 2025 Institute Portal. All rights reserved.</p>
+</footer>
+
+<script type="module" src="firebase.js"></script>
+</body>
+</html>
