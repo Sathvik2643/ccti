@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Dashboard | Code Connect</title>
+  <title>Admin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -22,29 +22,27 @@
 
 <!-- STATS -->
 <div class="admin-stats">
-  <div class="stat-card clickable" onclick="filterUsers(null)">
-    <h3 id="totalUsers">0</h3>
-    <p>Total Users</p>
-  </div>
-  <div class="stat-card clickable" onclick="filterUsers('student')">
+  <div class="stat-card clickable" onclick="toggleUserList('student')">
     <h3 id="totalStudents">0</h3>
     <p>Students</p>
   </div>
-  <div class="stat-card clickable" onclick="filterUsers('admin')">
+
+  <div class="stat-card clickable" onclick="toggleUserList('admin')">
     <h3 id="totalAdmins">0</h3>
     <p>Admins</p>
   </div>
 </div>
 
-<canvas id="userChart" height="120"></canvas>
-
+<!-- SEARCH (STUDENTS ONLY) -->
 <input
-  placeholder="Search user by email"
-  oninput="searchUsers(this.value)"
+  id="studentSearch"
+  placeholder="Search student by email"
+  oninput="searchStudents(this.value)"
+  style="display:none"
 />
 
 <!-- USER LIST -->
-<div id="userListContainer" style="margin-top:20px;">
+<div id="userListContainer" style="display:none">
   <table class="admin-table">
     <thead>
       <tr>
@@ -60,7 +58,9 @@
 
 <!-- COURSE MANAGEMENT -->
 <div class="accordion-item">
-  <button class="accordion-btn" onclick="toggleAccordion(0)">Course Management</button>
+  <button class="accordion-btn" onclick="toggleAccordion(0)">
+    Course Management
+  </button>
   <div class="accordion-content">
 
     <input id="courseName" placeholder="Course Name">
@@ -73,18 +73,6 @@
     <select id="courseSelect"></select>
     <button class="btn" onclick="assignCourse()">Assign</button>
 
-  </div>
-</div>
-
-<!-- CERTIFICATES -->
-<div class="accordion-item">
-  <button class="accordion-btn" onclick="toggleAccordion(1)">Certificate Management</button>
-  <div class="accordion-content">
-    <input id="certId" placeholder="Certificate ID">
-    <input id="certEmail" placeholder="Student Email">
-    <input id="certCourse" placeholder="Course">
-    <input id="certLink" placeholder="Drive Link">
-    <button class="btn" onclick="addCertificate()">Add Certificate</button>
   </div>
 </div>
 
