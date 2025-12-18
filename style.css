@@ -286,3 +286,9 @@ body {
   background: #f1f5f9;
   font-weight: 600;
 }
+
+.admin-table select {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+}
