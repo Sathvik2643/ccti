@@ -248,14 +248,25 @@ async function loadCourses() {
   if (!list || !select) return;
 
   list.innerHTML = "";
-  select.innerHTML = "";
+  select.innerHTML = `<option value="">Select Course</option>`;
 
   const snap = await getDocs(collection(db, "courses"));
   snap.forEach(d => {
-    list.innerHTML += `<li>${d.data().name}</li>`;
-    select.innerHTML += `<option value="${d.id}">${d.data().name}</option>`;
+    const c = d.data();
+
+    list.innerHTML += `
+      <li style="margin-bottom:10px">
+        <strong>${c.name}</strong><br>
+        <small>${c.description}</small><br>
+        <button class="btn" onclick="editCourse('${d.id}', '${c.name}', '${c.description}')">Edit</button>
+        <button class="btn danger" onclick="deleteCourse('${d.id}')">Delete</button>
+      </li>
+    `;
+
+    select.innerHTML += `<option value="${d.id}">${c.name}</option>`;
   });
 }
+
 
 window.addCourse = async () => {
   await addDoc(collection(db, "courses"), {
@@ -263,6 +274,26 @@ window.addCourse = async () => {
     description: courseDesc.value
   });
   courseName.value = courseDesc.value = "";
+  loadCourses();
+};
+
+window.editCourse = async (id, name, desc) => {
+  const newName = prompt("Edit course name:", name);
+  const newDesc = prompt("Edit description:", desc);
+
+  if (!newName || !newDesc) return;
+
+  await setDoc(
+    doc(db, "courses", id),
+    { name: newName, description: newDesc },
+    { merge: true }
+  );
+
+  loadCourses();
+};
+window.deleteCourse = async (id) => {
+  if (!confirm("Delete this course?")) return;
+  await deleteDoc(doc(db, "courses", id));
   loadCourses();
 };
 
@@ -280,6 +311,11 @@ async function loadStudents() {
 }
 
 window.assignCourse = async () => {
+  if (!studentSelect.value || !courseSelect.value) {
+    alert("Select student and course");
+    return;
+  }
+
   const ref = doc(db, "users", studentSelect.value);
   const snap = await getDoc(ref);
   const courses = snap.data().courses || [];
@@ -289,7 +325,12 @@ window.assignCourse = async () => {
     await setDoc(ref, { courses }, { merge: true });
     alert("Course assigned");
   }
+
+  /* RESET DROPDOWNS */
+  studentSelect.value = "";
+  courseSelect.value = "";
 };
+
 
 /* ================= CERTIFICATES (RESTORED) ================= */
 window.addCertificate = async () => {
@@ -303,11 +344,9 @@ window.addCertificate = async () => {
     return;
   }
 
-  /* ===== CONVERT GOOGLE DRIVE LINK TO DOWNLOAD LINK ===== */
   const match = link.match(/\/d\/([^/]+)/);
   if (match && match[1]) {
-    const fileId = match[1];
-    link = `https://drive.google.com/uc?export=download&id=${fileId}`;
+    link = `https://drive.google.com/uc?export=download&id=${match[1]}`;
   }
 
   await setDoc(doc(db, "certificates", id), {
@@ -316,7 +355,13 @@ window.addCertificate = async () => {
     fileUrl: link
   });
 
-  alert("Certificate added (download link saved)");
+  /* RESET FORM */
+  certId.value = "";
+  certEmail.value = "";
+  certCourse.value = "";
+  certLink.value = "";
+
+  alert("Certificate added");
 };
 
 
