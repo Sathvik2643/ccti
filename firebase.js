@@ -1,5 +1,6 @@
 /* ================= FIREBASE IMPORTS ================= */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -281,4 +282,55 @@ window.deleteUserFirestore = async (uid) => {
   await deleteDoc(doc(db, "users", uid));
   alert("User deleted");
   location.reload();
+};
+
+/* ================= COURSE MANAGEMENT ================= */
+window.addCourse = async () => {
+  const name = document.getElementById("courseName").value;
+  const desc = document.getElementById("courseDesc").value;
+  if (!name) return alert("Enter course name");
+
+  await addDoc(collection(db, "courses"), {
+    name,
+    description: desc
+  });
+
+  alert("Course added");
+};
+
+onAuthStateChanged(auth, async user => {
+  if (!user || !location.pathname.includes("admin.html")) return;
+
+  const list = document.getElementById("courseList");
+  if (!list) return;
+
+  const snap = await getDocs(collection(db, "courses"));
+  list.innerHTML = "";
+
+  snap.forEach(docu => {
+    const li = document.createElement("li");
+    li.textContent = docu.data().name;
+    list.appendChild(li);
+  });
+});
+
+/* ================= CERTIFICATE MANAGEMENT ================= */
+window.addCertificate = async () => {
+  const id = document.getElementById("certId").value;
+  const email = document.getElementById("certEmail").value;
+  const course = document.getElementById("certCourse").value;
+  const link = document.getElementById("certLink").value;
+
+  if (!id || !email || !link) {
+    alert("Fill all required fields");
+    return;
+  }
+
+  await setDoc(doc(db, "certificates", id), {
+    studentEmail: email,
+    course,
+    fileUrl: link
+  });
+
+  alert("Certificate added");
 };
