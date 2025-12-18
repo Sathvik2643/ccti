@@ -1,4 +1,4 @@
-/* ===== SECTION NAVIGATION ===== */
+/* ================= SECTION NAVIGATION ================= */
 function showSection(id) {
   document.querySelectorAll(".section").forEach(s => {
     s.style.display = "none";
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/* ===== MOBILE MENU ===== */
+/* ================= MOBILE MENU ================= */
 function toggleMenu() {
   document.getElementById("navMenu")?.classList.toggle("show");
 }
@@ -24,19 +24,11 @@ function closeMenu() {
   document.getElementById("navMenu")?.classList.remove("show");
 }
 
-/* ===== THEME ===== */
+/* ================= THEME ================= */
 function toggleTheme() {
   document.body.classList.toggle("dark");
   localStorage.setItem(
     "theme",
     document.body.classList.contains("dark") ? "dark" : "light"
   );
-}
-
-/* ===== ACCORDION ===== */
-function toggleAccordion(index) {
-  document.querySelectorAll(".accordion-content").forEach((el, i) => {
-    el.style.display =
-      i === index && el.style.display !== "block" ? "block" : "none";
-  });
 }
