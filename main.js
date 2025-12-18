@@ -3,6 +3,7 @@ function showSection(id) {
   document.querySelectorAll(".section").forEach(s => {
     s.style.display = "none";
   });
+
   const el = document.getElementById(id);
   if (el) el.style.display = "block";
 }
@@ -31,4 +32,18 @@ function toggleTheme() {
     "theme",
     document.body.classList.contains("dark") ? "dark" : "light"
   );
+}
+
+/* ================= ADMIN ACCORDION (RESTORED) ================= */
+function toggleAccordion(index) {
+  const sections = document.querySelectorAll(".accordion-content");
+
+  sections.forEach((sec, i) => {
+    if (i === index) {
+      sec.style.display =
+        sec.style.display === "block" ? "none" : "block";
+    } else {
+      sec.style.display = "none";
+    }
+  });
 }
