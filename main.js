@@ -1,16 +1,21 @@
-function showSection(id) {
-  document.querySelectorAll(".section").forEach(s => s.style.display = "none");
-  document.getElementById(id).style.display = "block";
-}
-
-function toggleMenu() {
-  document.getElementById("navMenu").classList.toggle("show");
-}
-
-function closeMenu() {
-  document.getElementById("navMenu").classList.remove("show");
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+  localStorage.setItem(
+    "theme",
+    document.body.classList.contains("dark") ? "dark" : "light"
+  );
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  showSection("home");
+  if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+  }
 });
+
+function toggleAccordion(index) {
+  document.querySelectorAll(".accordion-content").forEach((el, i) => {
+    el.style.display = i === index && el.style.display !== "block"
+      ? "block"
+      : "none";
+  });
+}
