@@ -11,21 +11,16 @@
 <header class="site-header">
   <nav class="navbar container">
     <div class="brand">
-      <a href="./index.html" onclick="showSection('home')">Code Connect</a>
+      <a href="index.html">Code Connect</a>
     </div>
+
     <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
     <ul class="nav-links" id="navMenu">
-      
-     <!-- <li><a href="#" onclick="showSection('home')">Home</a></li>
-      <li><a href="#" onclick="showSection('courses')">Courses</a></li>
-      <li><a href="login.html" onclick="showSection('student')">Student Corner</a></li>
-      <li><a href="#" onclick="showSection('verify')">Certificates</a></li> -->
-     <!-- <li><a href="#" onclick="showSection('home'); closeMenu()">Home</a></li> -->
-      
       <li><a href="#" onclick="showSection('courses'); closeMenu()">Courses</a></li>
       <li><a href="#" onclick="showSection('verify'); closeMenu()">Certificate</a></li>
-      <li><a href="login.html">Login</a></li>
-      <li><a href="#" onclick="showSection('about'); closeMenu()">About us</a></li>
+      <li><a href="login.html" onclick="closeMenu()">Login</a></li>
+      <li><a href="#" onclick="showSection('about'); closeMenu()">About</a></li>
     </ul>
   </nav>
 </header>
@@ -42,22 +37,22 @@
 
   <div class="course-card">
     <h3>Software</h3>
-    <p>C, Python, Java, SQL, Data Analyst, MS Office, real-time projects.</p>
+    <p>C, Python, Java, SQL, Data Analyst, MS Office</p>
   </div>
 
   <div class="course-card">
     <h3>VLSI</h3>
-    <p>Verilog, SystemVerilog, UVM, Protocols, Design & Verification.</p>
+    <p>Verilog, SystemVerilog, UVM, Protocols</p>
   </div>
 
   <div class="course-card">
     <h3>Embedded Systems</h3>
-    <p>Microcontrollers, RTOS, Interfacing, hands-on embedded projects.</p>
+    <p>Microcontrollers, RTOS, Embedded Projects</p>
   </div>
 </section>
 
 <section id="verify" class="section">
-  <h2>Verify / Download Certificate</h2>
+  <h2>Verify Certificate</h2>
   <input id="certInput" placeholder="Enter Certificate ID">
   <button class="btn" onclick="verifyCert()">Verify</button>
   <p id="certResult"></p>
@@ -66,16 +61,13 @@
 
 <section id="about" class="section">
   <h2>About Us</h2>
-  <p>
-    Code Connect is a professional coaching institute delivering
-    industry-oriented training with experienced faculty and practical learning.
-  </p>
+  <p>Industry-oriented training with real-world projects.</p>
 </section>
 
 </main>
 
 <footer class="site-footer">
-  <p>© 2025 Code Connect. All rights reserved.</p>
+  © 2025 Code Connect
 </footer>
 
 <script src="main.js"></script>
