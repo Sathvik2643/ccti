@@ -315,3 +315,17 @@ window.addCertificate = async () => {
 
   alert("Certificate added");
 };
+
+/* ================= ADMIN ACCORDION TOGGLE ================= */
+window.toggleAccordion = (index) => {
+  const sections = document.querySelectorAll(".accordion-content");
+
+  sections.forEach((sec, i) => {
+    if (i === index) {
+      sec.style.display = sec.style.display === "block" ? "none" : "block";
+    } else {
+      sec.style.display = "none";
+    }
+  });
+};
+
