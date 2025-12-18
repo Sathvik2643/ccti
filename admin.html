@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Dashboard</title>
+  <title>Admin Dashboard | Code Connect</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -10,39 +10,49 @@
 
 <header class="site-header">
   <nav class="navbar container">
-    <div class="brand">
-      <a href="./index.html">Institute Portal</a>
-    </div>
+    <div class="brand">Admin Dashboard</div>
     <ul class="nav-links">
-      <li><a href="#" onclick="logoutUser()">Logout</a></li>
+      <li><a onclick="logoutUser()" style="cursor:pointer">Logout</a></li>
     </ul>
   </nav>
 </header>
 
 <main class="container">
 
-  <!-- STATS -->
-  <div class="admin-stats">
-    <div class="stat-card">
-      <h3 id="totalUsers">0</h3>
-      <p>Total Users</p>
-    </div>
-    <div class="stat-card clickable" onclick="filterUsers('student')">
-      <h3 id="totalStudents">0</h3>
-      <p>Students</p>
-    </div>
-    <div class="stat-card clickable" onclick="filterUsers('admin')">
-      <h3 id="totalAdmins">0</h3>
-      <p>Admins</p>
-    </div>
+<!-- STATS -->
+<div class="admin-stats">
+  <div class="stat-card clickable" onclick="filterUsers(null)">
+    <h3 id="totalUsers">0</h3>
+    <p>Total Users</p>
   </div>
+  <div class="stat-card clickable" onclick="filterUsers('student')">
+    <h3 id="totalStudents">0</h3>
+    <p>Students</p>
+  </div>
+  <div class="stat-card clickable" onclick="filterUsers('admin')">
+    <h3 id="totalAdmins">0</h3>
+    <p>Admins</p>
+  </div>
+</div>
 
-  <!-- COURSE MANAGEMENT -->
+<!-- USER LIST -->
+<div id="userListContainer" style="display:none;margin-top:20px;">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Change Role</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody id="userTable"></tbody>
+  </table>
+</div>
+
+<!-- COURSE MANAGEMENT -->
 <div class="accordion-item">
-  <button class="accordion-btn" onclick="toggleAccordion(0)">
-    Course Management
-  </button>
-
+  <button class="accordion-btn" onclick="toggleAccordion(0)">Course Management</button>
   <div class="accordion-content">
 
     <h3>Add Course</h3>
@@ -50,10 +60,10 @@
     <textarea id="courseDesc" placeholder="Course Description"></textarea>
     <button class="btn" onclick="addCourse()">Add Course</button>
 
-    <h3 style="margin-top:20px;">Available Courses</h3>
+    <h3>Available Courses</h3>
     <ul id="courseList"></ul>
 
-    <h3 style="margin-top:20px;">Assign Course to Student</h3>
+    <h3>Assign Course</h3>
     <select id="studentSelect"></select>
     <select id="courseSelect"></select>
     <button class="btn" onclick="assignCourse()">Assign</button>
@@ -61,62 +71,25 @@
   </div>
 </div>
 
+<!-- CERTIFICATE MANAGEMENT -->
+<div class="accordion-item">
+  <button class="accordion-btn" onclick="toggleAccordion(1)">Certificate Management</button>
+  <div class="accordion-content">
 
-  <!-- ACCORDION TABS -->
-  <div class="accordion">
+    <input id="certId" placeholder="Certificate ID">
+    <input id="certEmail" placeholder="Student Email">
+    <input id="certCourse" placeholder="Course Name">
+    <input id="certLink" placeholder="Drive File Link">
 
-   <!-- USER LIST (TOGGLE BY CARDS) -->
-    <div id="userListContainer" style="display:none; margin-top:20px;">
-      <table class="admin-table">
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Change Role</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody id="userTable"></tbody>
-      </table>
-    </div>
+    <button class="btn" onclick="addCertificate()">Add Certificate</button>
 
-    <!-- COURSE MANAGEMENT -->
-    <div class="accordion-item">
-      <button class="accordion-btn" onclick="toggleAccordion(0)">
-        Course Management
-      </button>
-      <div class="accordion-content">
-        
-        <input id="courseName" placeholder="Course Name">
-        <input id="courseDesc" placeholder="Course Description">
-        
-        <button class="btn" onclick="addCourse()">Add Course</button>
-        <ul id="courseList"></ul>
-      
-      </div>
-    </div>
-
-    <!-- CERTIFICATE MANAGEMENT -->
-    <div class="accordion-item">
-      <button class="accordion-btn" onclick="toggleAccordion(1)">
-        Certificate Management
-      </button>
-      
-      <div class="accordion-content">
-        <input id="certId" placeholder="Certificate ID">
-        <input id="certEmail" placeholder="Student Email">
-        <input id="certCourse" placeholder="Course Name">
-        <input id="certLink" placeholder="Drive File Link">
-        
-        <button class="btn" onclick="addCertificate()">Add Certificate</button>
-      </div>
-    </div>
   </div>
+</div>
 
 </main>
 
 <footer class="site-footer">
-  <p>© 2025 Institute Portal. All rights reserved.</p>
+  © 2025 Code Connect
 </footer>
 
 <script type="module" src="firebase.js"></script>
