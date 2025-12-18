@@ -11,9 +11,10 @@
 <header class="site-header">
   <nav class="navbar container">
     <div class="brand">Admin Dashboard</div>
-    <ul class="nav-links">
-      <li><a onclick="logoutUser()" style="cursor:pointer">Logout</a></li>
-    </ul>
+    <div>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+      <a onclick="logoutUser()" style="cursor:pointer;color:#fff;margin-left:15px;">Logout</a>
+    </div>
   </nav>
 </header>
 
@@ -35,14 +36,21 @@
   </div>
 </div>
 
+<canvas id="userChart" height="120"></canvas>
+
+<input
+  placeholder="Search user by email"
+  oninput="searchUsers(this.value)"
+/>
+
 <!-- USER LIST -->
-<div id="userListContainer" style="display:none;margin-top:20px;">
+<div id="userListContainer" style="margin-top:20px;">
   <table class="admin-table">
     <thead>
       <tr>
         <th>Email</th>
         <th>Role</th>
-        <th>Change Role</th>
+        <th>Change</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -55,15 +63,12 @@
   <button class="accordion-btn" onclick="toggleAccordion(0)">Course Management</button>
   <div class="accordion-content">
 
-    <h3>Add Course</h3>
     <input id="courseName" placeholder="Course Name">
     <textarea id="courseDesc" placeholder="Course Description"></textarea>
     <button class="btn" onclick="addCourse()">Add Course</button>
 
-    <h3>Available Courses</h3>
     <ul id="courseList"></ul>
 
-    <h3>Assign Course</h3>
     <select id="studentSelect"></select>
     <select id="courseSelect"></select>
     <button class="btn" onclick="assignCourse()">Assign</button>
@@ -71,27 +76,23 @@
   </div>
 </div>
 
-<!-- CERTIFICATE MANAGEMENT -->
+<!-- CERTIFICATES -->
 <div class="accordion-item">
   <button class="accordion-btn" onclick="toggleAccordion(1)">Certificate Management</button>
   <div class="accordion-content">
-
     <input id="certId" placeholder="Certificate ID">
     <input id="certEmail" placeholder="Student Email">
-    <input id="certCourse" placeholder="Course Name">
-    <input id="certLink" placeholder="Drive File Link">
-
+    <input id="certCourse" placeholder="Course">
+    <input id="certLink" placeholder="Drive Link">
     <button class="btn" onclick="addCertificate()">Add Certificate</button>
-
   </div>
 </div>
 
 </main>
 
-<footer class="site-footer">
-  © 2025 Code Connect
-</footer>
+<footer class="site-footer">© 2025 Code Connect</footer>
 
+<script src="main.js"></script>
 <script type="module" src="firebase.js"></script>
 </body>
 </html>
