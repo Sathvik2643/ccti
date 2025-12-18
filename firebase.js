@@ -1,46 +1,21 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
-  getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
-  sendEmailVerification, signOut, onAuthStateChanged
+  getAuth, signInWithEmailAndPassword,
+  signOut, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
-  getFirestore, doc, setDoc, getDoc, getDocs,
-  deleteDoc, collection, addDoc
+  getFirestore, doc, setDoc, getDoc,
+  getDocs, deleteDoc, collection
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const firebaseConfig = {
+const app = initializeApp({
   apiKey: "AIzaSyAdAEDwbkapoWf5FRWywQ3Lc_yee2fLbck",
   authDomain: "project1-27eeb.firebaseapp.com",
   projectId: "project1-27eeb"
-};
+});
 
-const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-const email = () => document.getElementById("email")?.value || "";
-const password = () => document.getElementById("password")?.value || "";
-const err = () => document.getElementById("errorMsg");
-
-window.loginUser = async () => {
-  try {
-    const cred = await signInWithEmailAndPassword(auth, email(), password());
-    if (!cred.user.emailVerified) throw 0;
-    const snap = await getDoc(doc(db, "users", cred.user.uid));
-    location.href = snap.data().role === "admin" ? "admin.html" : "student.html";
-  } catch {
-    err().textContent = "Login failed";
-  }
-};
-
-window.registerUser = async () => {
-  const cred = await createUserWithEmailAndPassword(auth, email(), password());
-  await setDoc(doc(db, "users", cred.user.uid), {
-    email: email(), role: "student", courses: []
-  });
-  await sendEmailVerification(cred.user);
-  err().textContent = "Verify email sent";
-};
 
 window.logoutUser = async () => {
   await signOut(auth);
@@ -48,7 +23,9 @@ window.logoutUser = async () => {
 };
 
 let allUsers = [];
+let currentView = null;
 
+/* ===== AUTH GUARD ===== */
 onAuthStateChanged(auth, async user => {
   if (!user || !location.pathname.includes("admin")) return;
 
@@ -60,28 +37,42 @@ onAuthStateChanged(auth, async user => {
   }
 
   const usersSnap = await getDocs(collection(db, "users"));
-  let students = 0, admins = 0;
-  allUsers = [];
+  allUsers = usersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-  usersSnap.forEach(d => {
-    const u = { id: d.id, ...d.data() };
-    allUsers.push(u);
-    u.role === "student" ? students++ : admins++;
-  });
-
-  totalUsers.innerText = allUsers.length;
-  totalStudents.innerText = students;
-  totalAdmins.innerText = admins;
-
-  drawChart(students * 4, admins * 4);
-  renderUsers(allUsers);
-  loadCourses();
-  loadStudents();
+  totalStudents.innerText = allUsers.filter(u => u.role === "student").length;
+  totalAdmins.innerText = allUsers.filter(u => u.role === "admin").length;
 });
 
-window.searchUsers = txt =>
-  renderUsers(allUsers.filter(u => u.email.includes(txt)));
+/* ===== TOGGLE STUDENT / ADMIN LIST ===== */
+window.toggleUserList = role => {
+  const box = userListContainer;
+  const search = studentSearch;
 
+  if (currentView === role) {
+    box.style.display = "none";
+    search.style.display = "none";
+    currentView = null;
+    return;
+  }
+
+  currentView = role;
+  box.style.display = "block";
+  search.style.display = role === "student" ? "block" : "none";
+
+  renderUsers(allUsers.filter(u => u.role === role));
+};
+
+/* ===== SEARCH STUDENTS ONLY ===== */
+window.searchStudents = txt => {
+  renderUsers(
+    allUsers.filter(
+      u => u.role === "student" &&
+      u.email.toLowerCase().includes(txt.toLowerCase())
+    )
+  );
+};
+
+/* ===== RENDER TABLE ===== */
 function renderUsers(users) {
   userTable.innerHTML = "";
   users.forEach(u => {
@@ -106,53 +97,5 @@ window.changeUserRole = (id, role) =>
   setDoc(doc(db,"users",id),{role},{merge:true}).then(()=>location.reload());
 
 window.deleteUser = id =>
-  confirm("Delete user?") && deleteDoc(doc(db,"users",id)).then(()=>location.reload());
-
-async function loadCourses() {
-  courseList.innerHTML = courseSelect.innerHTML = "";
-  const snap = await getDocs(collection(db,"courses"));
-  snap.forEach(d => {
-    courseList.innerHTML += `<li>${d.data().name}</li>`;
-    courseSelect.innerHTML += `<option value="${d.id}">${d.data().name}</option>`;
-  });
-}
-
-window.addCourse = async () => {
-  await addDoc(collection(db,"courses"), {
-    name: courseName.value,
-    description: courseDesc.value
-  });
-  courseName.value = courseDesc.value = "";
-  loadCourses();
-};
-
-async function loadStudents() {
-  studentSelect.innerHTML = "";
-  const snap = await getDocs(collection(db,"users"));
-  snap.forEach(d => d.data().role==="student" &&
-    (studentSelect.innerHTML += `<option value="${d.id}">${d.data().email}</option>`));
-}
-
-window.assignCourse = async () => {
-  const ref = doc(db,"users",studentSelect.value);
-  const snap = await getDoc(ref);
-  const courses = snap.data().courses || [];
-  if (!courses.includes(courseSelect.value)) {
-    courses.push(courseSelect.value);
-    await setDoc(ref,{courses},{merge:true});
-  }
-};
-
-window.addCertificate = async () =>
-  setDoc(doc(db,"certificates",certId.value),{
-    studentEmail: certEmail.value,
-    course: certCourse.value,
-    fileUrl: certLink.value
-  }).then(()=>alert("Certificate added"));
-
-function drawChart(stu, adm) {
-  const c = userChart.getContext("2d");
-  c.clearRect(0,0,300,150);
-  c.fillStyle="#2563eb"; c.fillRect(40,150-stu,80,stu);
-  c.fillStyle="#06b6d4"; c.fillRect(160,150-adm,80,adm);
-}
+  confirm("Delete user?") &&
+  deleteDoc(doc(db,"users",id)).then(()=>location.reload());
