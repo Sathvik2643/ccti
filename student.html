@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Student Dashboard | Code Connect</title>
+  <title>Student Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -18,27 +18,14 @@
 </header>
 
 <main class="container">
-  <section class="section" style="display:block">
+  <h2>Student Dashboard</h2>
+  <p><strong>Email:</strong> <span id="studentEmail"></span></p>
 
-    <h2>Student Dashboard</h2>
-
-    <p><strong>User:</strong> <span id="studentEmail"></span></p>
-
-    <h3>My Registered Courses</h3>
-
-    <!-- Courses will be injected here by firebase.js -->
-    <div id="studentCourses"></div>
-
-    <a class="btn" href="GOOGLE_FORM_URL" target="_blank" style="margin-top:15px;">
-      Register New Course
-    </a>
-
-  </section>
+  <h3>My Courses</h3>
+  <div id="studentCourses"></div>
 </main>
 
-<footer class="site-footer">
-  <p>© 2025 Code Connect. All rights reserved.</p>
-</footer>
+<footer class="site-footer">© 2025 Code Connect</footer>
 
 <script type="module" src="firebase.js"></script>
 </body>
