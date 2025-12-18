@@ -329,3 +329,125 @@ window.toggleAccordion = (index) => {
   });
 };
 
+/* ================= COURSE MANAGEMENT ================= */
+
+let courseCache = [];
+
+/* Load courses for admin */
+async function loadCourses() {
+  const list = document.getElementById("courseList");
+  const courseSelect = document.getElementById("courseSelect");
+  if (!list || !courseSelect) return;
+
+  list.innerHTML = "";
+  courseSelect.innerHTML = "";
+
+  const snap = await getDocs(collection(db, "courses"));
+  courseCache = [];
+
+  snap.forEach(docu => {
+    const data = docu.data();
+    courseCache.push({ id: docu.id, ...data });
+
+    // List view
+    const li = document.createElement("li");
+    li.innerHTML = `<strong>${data.name}</strong><br><small>${data.description}</small>`;
+    list.appendChild(li);
+
+    // Dropdown
+    const opt = document.createElement("option");
+    opt.value = docu.id;
+    opt.textContent = data.name;
+    courseSelect.appendChild(opt);
+  });
+}
+
+/* Add course */
+window.addCourse = async () => {
+  const name = document.getElementById("courseName").value.trim();
+  const desc = document.getElementById("courseDesc").value.trim();
+
+  if (!name || !desc) {
+    alert("Enter course name and description");
+    return;
+  }
+
+  await addDoc(collection(db, "courses"), { name, description: desc });
+
+  document.getElementById("courseName").value = "";
+  document.getElementById("courseDesc").value = "";
+
+  alert("Course added");
+  loadCourses();
+};
+
+/* Load students for assignment */
+async function loadStudents() {
+  const select = document.getElementById("studentSelect");
+  if (!select) return;
+
+  select.innerHTML = "";
+  const snap = await getDocs(collection(db, "users"));
+
+  snap.forEach(d => {
+    if (d.data().role === "student") {
+      const opt = document.createElement("option");
+      opt.value = d.id;
+      opt.textContent = d.data().email;
+      select.appendChild(opt);
+    }
+  });
+}
+
+/* Assign course to student */
+window.assignCourse = async () => {
+  const studentId = document.getElementById("studentSelect").value;
+  const courseId = document.getElementById("courseSelect").value;
+
+  if (!studentId || !courseId) {
+    alert("Select student and course");
+    return;
+  }
+
+  const ref = doc(db, "users", studentId);
+  const snap = await getDoc(ref);
+  const courses = snap.data().courses || [];
+
+  if (!courses.includes(courseId)) {
+    courses.push(courseId);
+    await setDoc(ref, { courses }, { merge: true });
+    alert("Course assigned");
+  } else {
+    alert("Student already registered for this course");
+  }
+};
+
+/* ================= STUDENT DASHBOARD ================= */
+
+async function loadStudentCourses(user) {
+  const container = document.getElementById("studentCourses");
+  if (!container) return;
+
+  const userSnap = await getDoc(doc(db, "users", user.uid));
+  const courseIds = userSnap.data().courses || [];
+
+  container.innerHTML = "";
+
+  for (const id of courseIds) {
+    const cSnap = await getDoc(doc(db, "courses", id));
+    if (cSnap.exists()) {
+      const c = cSnap.data();
+      const div = document.createElement("div");
+      div.innerHTML = `<h4>${c.name}</h4><p>${c.description}</p>`;
+      container.appendChild(div);
+    }
+  }
+}
+
+/* Hook into auth */
+onAuthStateChanged(auth, user => {
+  if (!user) return;
+  loadCourses();
+  loadStudents();
+  loadStudentCourses(user);
+});
