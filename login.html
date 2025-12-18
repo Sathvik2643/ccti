@@ -8,59 +8,71 @@
 </head>
 <body>
 
+<!-- HEADER -->
 <header class="site-header">
   <nav class="navbar container">
+    <!-- Brand acts as Home -->
     <div class="brand">
       <a href="index.html">Code Connect</a>
     </div>
   </nav>
 </header>
 
+<!-- LOGIN CONTENT -->
 <main class="container">
-  <section class="section" style="max-width:400px;margin:auto;">
+  <section class="section" style="max-width:420px;margin:auto;">
 
-    <h2>Login</h2>
+    <h2 style="text-align:center;">Login</h2>
 
     <!-- EMAIL -->
+    <label for="email">Email</label>
     <input
       type="email"
       id="email"
-      placeholder="Email"
+      placeholder="Enter your email"
       autocomplete="username"
+      required
     >
 
     <!-- PASSWORD -->
+    <label for="password">Password</label>
     <input
       type="password"
       id="password"
-      placeholder="Password"
+      placeholder="Enter your password"
       autocomplete="current-password"
+      required
     >
 
     <!-- ERROR / MESSAGE -->
-    <p id="errorMsg" style="color:red;"></p>
+    <p id="errorMsg" style="min-height:20px;color:red;"></p>
 
-    <!-- LOGIN -->
-    <button class="btn" onclick="loginUser()">Login</button>
+    <!-- LOGIN BUTTON -->
+    <button class="btn" style="width:100%;" onclick="loginUser()">
+      Login
+    </button>
 
     <!-- REGISTER -->
-    <p style="margin-top:10px;">
+    <p style="margin-top:12px;text-align:center;">
       New user?
       <a href="#" onclick="registerUser()">Register</a>
     </p>
 
     <!-- FORGOT PASSWORD -->
-    <p>
+    <p style="text-align:center;">
       <a href="#" onclick="forgotPassword()">Forgot password?</a>
     </p>
 
   </section>
 </main>
 
+<!-- FOOTER -->
 <footer class="site-footer">
   <p>© 2025 Code Connect. All rights reserved.</p>
 </footer>
 
+<!-- FIREBASE -->
 <script type="module" src="firebase.js"></script>
+
 </body>
 </html>
