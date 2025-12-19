@@ -20,7 +20,7 @@
 
 <main class="container">
 
-<!-- STATS -->
+<!-- USER STATS -->
 <div class="admin-stats">
   <div class="stat-card clickable" onclick="toggleUserList('student')">
     <h3 id="totalStudents">0</h3>
@@ -33,7 +33,8 @@
 </div>
 
 <input id="studentSearch" placeholder="Search student by email"
-       oninput="searchStudents(this.value)" style="display:none;margin-top:15px;">
+  oninput="searchStudents(this.value)"
+  style="display:none;margin-top:15px;">
 
 <div id="userListContainer" style="display:none;margin-top:20px;">
   <table class="admin-table">
@@ -68,9 +69,11 @@
       <select id="studentSelect">
         <option value="">Select Student</option>
       </select>
+
       <select id="courseSelect">
         <option value="">Select Course</option>
       </select>
+
       <button class="btn" onclick="assignCourse()">Assign</button>
     </div>
 
