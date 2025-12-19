@@ -55,3 +55,28 @@ window.toggleCourses = function () {
   const box = document.getElementById("courseListBox");
   box.style.display = box.style.display === "block" ? "none" : "block";
 };
+
+/* ===== TOGGLE STUDENT SELECT ===== */
+window.toggleStudentSelect = function () {
+  const student = document.getElementById("studentSelect");
+  const course = document.getElementById("courseSelect");
+
+  student.style.display =
+    student.style.display === "block" ? "none" : "block";
+
+  /* close course dropdown if open */
+  if (course) course.style.display = "none";
+};
+
+/* ===== TOGGLE COURSE SELECT ===== */
+window.toggleCourseSelect = function () {
+  const course = document.getElementById("courseSelect");
+  const student = document.getElementById("studentSelect");
+
+  course.style.display =
+    course.style.display === "block" ? "none" : "block";
+
+  /* close student dropdown if open */
+  if (student) student.style.display = "none";
+};
+
