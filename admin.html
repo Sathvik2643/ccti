@@ -69,25 +69,20 @@
     <button class="btn" onclick="addCourse()">Add Course</button>
 
     <!-- TOGGLE COURSES LIST -->
-    <button class="btn" style="margin-top:10px" onclick="toggleCourses()">
-      Courses
-    </button>
+    <!-- ASSIGN COURSE -->
 
-    <div id="courseListBox" style="display:none">
-      <ul id="courseList"></ul>
-    </div>
+<button class="btn" onclick="toggleStudentSelect()">Select Student</button>
+<select id="studentSelect" style="display:none">
+  <option value="">Select Student</option>
+</select>
 
-    <hr>
+<button class="btn" onclick="toggleCourseSelect()">Select Course</button>
+<select id="courseSelect" style="display:none">
+  <option value="">Select Course</option>
+</select>
 
-    <select id="studentSelect">
-      <option value="">Select Student</option>
-    </select>
+<button class="btn" onclick="assignCourse()">Assign</button>
 
-    <select id="courseSelect">
-      <option value="">Select Course</option>
-    </select>
-
-    <button class="btn" onclick="assignCourse()">Assign</button>
 
   </div>
 </div>
