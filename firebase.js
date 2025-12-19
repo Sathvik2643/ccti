@@ -1,7 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getAuth, signOut, onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore, doc, setDoc, getDoc, getDocs,
   deleteDoc, collection, addDoc
@@ -94,6 +92,19 @@ window.addCourse = async () => {
   loadCourses();
 };
 
+window.editCourse = async (docId, cid, name, desc) => {
+  const nCid = prompt("Edit Course ID", cid);
+  const nName = prompt("Edit Course Name", name);
+  const nDesc = prompt("Edit Description", desc);
+  if (!nCid || !nName) return;
+  await setDoc(doc(db,"courses",docId),{
+    courseId: nCid.toUpperCase(),
+    name: nName,
+    description: nDesc
+  },{merge:true});
+  loadCourses();
+};
+
 async function loadCourses() {
   courseList.innerHTML = "";
   courseSelect.innerHTML = `<option value="">Select Course</option>`;
@@ -103,7 +114,8 @@ async function loadCourses() {
     courseList.innerHTML += `
       <li>
         <strong>${c.courseId}</strong> - ${c.name}<br>
-        <small>${c.description}</small>
+        <small>${c.description}</small><br>
+        <button class="btn" onclick="editCourse('${d.id}','${c.courseId}','${c.name}','${c.description}')">Edit</button>
         <button class="btn danger" onclick="deleteCourse('${d.id}')">Delete</button>
       </li>`;
     courseSelect.innerHTML += `<option value="${c.courseId}">${c.courseId}</option>`;
