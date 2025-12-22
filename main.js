@@ -34,6 +34,7 @@ window.toggleTheme = function () {
   );
 };
 
+
 /* ================= ADMIN ACCORDION ================= */
 window.toggleAccordion = function (index) {
   document.querySelectorAll(".accordion-content").forEach((el, i) => {
