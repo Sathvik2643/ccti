@@ -20,7 +20,7 @@
 
 <main class="container">
 
-<!-- USER STATS -->
+<!-- STATS -->
 <div class="admin-stats">
   <div class="stat-card clickable" onclick="toggleUserList('student')">
     <h3 id="totalStudents">0</h3>
@@ -32,14 +32,26 @@
   </div>
 </div>
 
-<input id="studentSearch" placeholder="Search student by email"
-  oninput="searchStudents(this.value)"
+<!-- STUDENT ID GENERATOR -->
+<div class="card" style="margin-top:20px">
+  <h3>Student ID Generator</h3>
+  <input id="idPrefix" placeholder="Prefix (ex: CT2026)">
+  <input id="idStart" placeholder="Start Number (ex: 001)">
+  <button class="btn" onclick="assignStudentIds()">Assign IDs</button>
+</div>
+
+<!-- SEARCH -->
+<input id="studentSearch"
+  placeholder="Search by Student ID"
+  oninput="searchStudentsById(this.value)"
   style="display:none;margin-top:15px;">
 
+<!-- USER LIST -->
 <div id="userListContainer" style="display:none;margin-top:20px;">
   <table class="admin-table">
     <thead>
       <tr>
+        <th>Student ID</th>
         <th>Email</th>
         <th>Role</th>
         <th>Change</th>
@@ -48,55 +60,6 @@
     </thead>
     <tbody id="userTable"></tbody>
   </table>
-</div>
-
-<!-- COURSE MANAGEMENT -->
-<div class="accordion-item">
-  <button class="accordion-btn" onclick="toggleAccordion(0)">Course Management</button>
-  <div class="accordion-content">
-
-    <input id="courseId" placeholder="Course ID (ex: PY)">
-    <input id="courseName" placeholder="Course Name">
-    <textarea id="courseDesc" placeholder="Course Description"></textarea>
-    <button class="btn" onclick="addCourse()">Add Course</button>
-
-    <button class="btn" style="margin-top:10px" onclick="toggleCourses()">Courses</button>
-    <div id="courseListBox" style="display:none;margin-top:10px;">
-      <ul id="courseList"></ul>
-    </div>
-
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:15px;">
-      <select id="studentSelect">
-        <option value="">Select Student</option>
-      </select>
-
-      <select id="courseSelect">
-        <option value="">Select Course</option>
-      </select>
-
-      <button class="btn" onclick="assignCourse()">Assign</button>
-    </div>
-
-  </div>
-</div>
-
-<!-- CERTIFICATE MANAGEMENT -->
-<div class="accordion-item">
-  <button class="accordion-btn" onclick="toggleAccordion(1)">Certificate Management</button>
-  <div class="accordion-content">
-
-    <input placeholder="Search Student ID" oninput="filterStudents(this.value)">
-    <select id="certStudentSelect" size="4"></select>
-
-    <input placeholder="Search Course ID" oninput="filterCourses(this.value)">
-    <select id="certCourseSelect" size="4"></select>
-
-    <p><strong>Certificate ID:</strong> <span id="generatedCertId">---</span></p>
-
-    <input id="certLink" placeholder="Google Drive Link">
-    <button class="btn" onclick="addCertificate()">Add Certificate</button>
-
-  </div>
 </div>
 
 </main>
