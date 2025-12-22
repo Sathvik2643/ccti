@@ -33,6 +33,33 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+/* ================= LOGIN HANDLER (REQUIRED) ================= */
+const loginForm = document.getElementById("loginForm");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const errorMsg = document.getElementById("errorMsg");
+
+loginForm?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  errorMsg.textContent = "";
+
+  try {
+    const cred = await signInWithEmailAndPassword(
+      auth,
+      emailInput.value,
+      passwordInput.value
+    );
+
+    if (!cred.user.emailVerified) {
+      errorMsg.textContent = "Please verify your email before login.";
+      return;
+    }
+    // ✅ Redirect handled by onAuthStateChanged
+  } catch (err) {
+    errorMsg.textContent = "Invalid email or password.";
+  }
+});
+
 /* ================= LOGOUT ================= */
 window.logoutUser = async () => {
   await signOut(auth);
