@@ -33,31 +33,35 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* ================= LOGIN HANDLER (REQUIRED) ================= */
-const loginForm = document.getElementById("loginForm");
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-const errorMsg = document.getElementById("errorMsg");
+/* ================= LOGIN HANDLER (FIXED) ================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const loginForm = document.getElementById("loginForm");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const errorMsg = document.getElementById("errorMsg");
 
-loginForm?.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  errorMsg.textContent = "";
+  if (!loginForm) return;
 
-  try {
-    const cred = await signInWithEmailAndPassword(
-      auth,
-      emailInput.value,
-      passwordInput.value
-    );
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errorMsg.textContent = "";
 
-    if (!cred.user.emailVerified) {
-      errorMsg.textContent = "Please verify your email before login.";
-      return;
+    try {
+      const cred = await signInWithEmailAndPassword(
+        auth,
+        emailInput.value,
+        passwordInput.value
+      );
+
+      if (!cred.user.emailVerified) {
+        errorMsg.textContent = "Please verify your email before login.";
+        return;
+      }
+      // Redirect handled by onAuthStateChanged
+    } catch (err) {
+      errorMsg.textContent = "Invalid email or password.";
     }
-    // ✅ Redirect handled by onAuthStateChanged
-  } catch (err) {
-    errorMsg.textContent = "Invalid email or password.";
-  }
+  });
 });
 
 /* ================= LOGOUT ================= */
@@ -87,10 +91,13 @@ onAuthStateChanged(auth, async (user) => {
 
   const role = snap.data().role;
 
-  if (location.pathname.includes("login")) {
-    location.href = role === "admin" ? "admin.html" : "student.html";
-    return;
-  }
+ if (
+  location.pathname.includes("login") ||
+  location.pathname.endsWith("/") ||
+  location.pathname.includes("index")
+) {
+  location.href = role === "admin" ? "admin.html" : "student.html";
+}
 
   if (location.pathname.includes("admin") && role !== "admin") {
     location.href = "student.html";
